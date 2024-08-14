@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background-color: gray;
+}
+
+header {
+  padding: 16px;
+  background-color: darkblue;
+}
+
+main {
+  padding: 16px;
+  min-height: calc(100vh - 50px - 58px);
+  text-align: center;
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+  background-color: black;
+  color: azure;
+}
+
+ul {
+  text-align: left;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  padding: 0.5rem;
+  text-decoration: none;
+  color: white;
+
+  &:hover {
+    background-color: rgb(0, 127, 212);
+  }
+}

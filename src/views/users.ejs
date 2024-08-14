@@ -1,0 +1,13 @@
+<h1>Users List</h1>
+
+<% if (users.length) { %>
+<ul>
+  <% users.sort((a, b) => a.created_at - b.created_at).forEach(user => { %>
+  <li>
+    <a href="/users/<%= user.id %>"><%= user.username %></a>
+  </li>
+  <% }); %>
+</ul>
+<% } else { %>
+<p>No users yet!</p>
+<% } %>

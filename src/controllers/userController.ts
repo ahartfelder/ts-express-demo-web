@@ -1,10 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { listUsers } from '../db/queries/userQueries';
-
-const users = [
-  { id: 1, username: 'user1', password: 'password1' },
-  { id: 2, username: 'user2', password: 'password2' },
-];
+import { getUserById, listUsers } from '../db/queries/userQueries';
+import { removePassword } from '../helpers/filterUser';
 
 export const getAllUsers = async (
   req: Request,
@@ -14,10 +10,12 @@ export const getAllUsers = async (
   try {
     const users = await listUsers();
     if (users.length) {
-      users.forEach((user) => {
-        delete user.password_hash;
-      });
-      res.json(users);
+      removePassword(users);
+      const locals = {
+        title: 'Users List',
+        users,
+      };
+      res.render('users', locals);
       return;
     }
     res.status(404).send('Users list empty');
@@ -26,16 +24,21 @@ export const getAllUsers = async (
   }
 };
 
-export const getUserById = (
+export const getUser = async (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Promise<void> => {
   try {
     const { id } = req.params;
-    const user = users.find((u) => u.id === parseInt(id));
+    const user = await getUserById(id);
     if (user) {
-      res.json(user);
+      removePassword([user]);
+      const locals = {
+        title: `${user.username} details`,
+        user,
+      };
+      res.render('user', locals);
     } else {
       res.status(404).json({ message: 'User not found' });
     }
@@ -51,8 +54,7 @@ export const createUser = (
 ): void => {
   try {
     const { username, password } = req.body;
-    const newUser = { id: users.length + 1, username, password };
-    users.push(newUser);
+    const newUser = { id: '1', username, password };
     res.status(201).json(newUser);
   } catch (error) {
     next(error);
