@@ -1,32 +1,45 @@
 import { Request, Response, NextFunction } from 'express';
 
-export const register = (
+import { createUser, getUserByUsername } from '../db/queries/userQueries';
+import { comparePassword, encryptPassword } from '../utils/bcrypt';
+
+export const register = async (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Promise<void> => {
   try {
     const { username, password } = req.body;
-    // Registration logic (e.g., save user to database)
-    console.log(req.body);
+    const passwordHash = encryptPassword(password);
+    const newUser = await createUser(username, passwordHash);
+    console.log(newUser);
     res.status(201).send(`User ${username} registered`);
   } catch (error) {
-    res.status(400).send('Something went wrong!');
+    next(error);
   }
 };
 
-export const login = (
+export const login = async (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Promise<void> => {
   try {
     const { username, password } = req.body;
-    // Login logic (e.g., verify user credentials)
-    console.log(req.body);
-    res.status(200).send(`User ${username} logged in`);
+    const user = await getUserByUsername(username);
+
+    if (
+      user &&
+      user.password_hash &&
+      comparePassword(password, user.password_hash)
+    ) {
+      // set session cookie
+      res.status(200).send(`User ${username} logged in`);
+      return;
+    }
+    res.status(401).send('Invalid username or password');
   } catch (error) {
-    res.status(400).send('Something went wrong!');
+    next(error);
   }
 };
 
@@ -39,7 +52,7 @@ export const logout = (
     // Logout logic (e.g., destroy user session)
     res.status(200).send('User logged out');
   } catch (error) {
-    res.status(400).send('Something went wrong!');
+    next(error);
   }
 };
 
@@ -51,7 +64,7 @@ export const registerForm = (
   try {
     res.send('Register form');
   } catch (error) {
-    res.status(400).send('Something went wrong!');
+    next(error);
   }
 };
 
@@ -63,6 +76,6 @@ export const loginForm = (
   try {
     res.send('Login form');
   } catch (error) {
-    res.status(400).send('Something went wrong!');
+    next(error);
   }
 };

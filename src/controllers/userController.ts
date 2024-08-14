@@ -1,19 +1,28 @@
 import { Request, Response, NextFunction } from 'express';
+import { listUsers } from '../db/queries/userQueries';
 
 const users = [
   { id: 1, username: 'user1', password: 'password1' },
   { id: 2, username: 'user2', password: 'password2' },
 ];
 
-export const getAllUsers = (
+export const getAllUsers = async (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Promise<void> => {
   try {
-    res.json(users);
+    const users = await listUsers();
+    if (users.length) {
+      users.forEach((user) => {
+        delete user.password_hash;
+      });
+      res.json(users);
+      return;
+    }
+    res.status(404).send('Users list empty');
   } catch (error) {
-    res.status(400).send('Something went wrong!');
+    next(error);
   }
 };
 
@@ -31,7 +40,7 @@ export const getUserById = (
       res.status(404).json({ message: 'User not found' });
     }
   } catch (error) {
-    res.status(400).send('Something went wrong!');
+    next(error);
   }
 };
 
@@ -46,7 +55,7 @@ export const createUser = (
     users.push(newUser);
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(400).send('Something went wrong!');
+    next(error);
   }
 };
 
@@ -66,7 +75,7 @@ export const updateUser = (
       res.status(404).json({ message: 'User not found' });
     }
   } catch (error) {
-    res.status(400).send('Something went wrong!');
+    next(error);
   }
 };
 
@@ -85,6 +94,6 @@ export const deleteUser = (
       res.status(404).json({ message: 'User not found' });
     }
   } catch (error) {
-    res.status(400).send('Something went wrong!');
+    next(error);
   }
 };

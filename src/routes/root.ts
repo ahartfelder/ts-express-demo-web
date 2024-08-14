@@ -1,9 +1,13 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 
 const router = Router();
 
-router.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript with Express and dotenv-flow!');
+router.get('/', (req: Request, res: Response, next: NextFunction) => {
+  try {
+    res.send('Hello, TypeScript with Express and dotenv-flow!');
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default router;
