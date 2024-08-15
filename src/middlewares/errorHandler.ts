@@ -12,7 +12,9 @@ export const errorHandler = (
 ): void => {
   const statusCode = err.statusCode ?? 500;
 
-  console.error(`[ERROR] ${err.stack}`);
+  console.error(`\x1b[31m[ERROR] ${err.stack}\x1b[0m`);
+
+  if (err.message === 'Invalid UUID format') err.message = 'Invalid user';
 
   res.status(statusCode).json({
     status: statusCode,

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { validate as validateUUID } from 'uuid';
 import { getUserById, listUsers } from '../db/queries/userQueries';
 import { removePassword } from '../helpers/filterUser';
 
@@ -9,16 +10,12 @@ export const getAllUsers = async (
 ): Promise<void> => {
   try {
     const users = await listUsers();
-    if (users.length) {
-      removePassword(users);
-      const locals = {
-        title: 'Users List',
-        users,
-      };
-      res.render('users', locals);
-      return;
-    }
-    res.status(404).send('Users list empty');
+    const locals = {
+      title: 'Users List',
+      users,
+    };
+    removePassword(users);
+    res.render('users', locals);
   } catch (error) {
     next(error);
   }
@@ -31,18 +28,21 @@ export const getUser = async (
 ): Promise<void> => {
   try {
     const { id } = req.params;
+    if (!validateUUID(id)) throw new Error('Invalid UUID format');
     const user = await getUserById(id);
-    if (user) {
-      removePassword([user]);
-      const locals = {
-        title: `${user.username} details`,
-        user,
-      };
-      res.render('user', locals);
-    } else {
-      res.status(404).json({ message: 'User not found' });
+    if (!user) throw new Error('User not found');
+    removePassword([user]);
+    const locals = {
+      title: `${user.username} details`,
+      user,
+    };
+    res.render('user', locals);
+  } catch (error: any) {
+    if (error.message === 'Invalid UUID format') {
+      error.statusCode = 400;
+    } else if (error.message === 'User not found') {
+      error.statusCode = 404;
     }
-  } catch (error) {
     next(error);
   }
 };
