@@ -62,7 +62,11 @@ export const registerForm = (
   next: NextFunction
 ): void => {
   try {
-    res.send('Register form');
+    const locals = {
+      title: 'Register',
+      action: 'register',
+    };
+    res.render('register', locals);
   } catch (error) {
     next(error);
   }
@@ -74,7 +78,11 @@ export const loginForm = (
   next: NextFunction
 ): void => {
   try {
-    res.send('Login form');
+    const locals = {
+      title: 'Login',
+      action: 'login',
+    };
+    res.render('login', locals);
   } catch (error) {
     next(error);
   }
