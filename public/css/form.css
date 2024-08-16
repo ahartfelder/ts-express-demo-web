@@ -1,0 +1,64 @@
+.auth-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #666666;
+  border-radius: 8px;
+  background-color: #444444;
+  color: #e0e0e0;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #e0e0e0;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #666666;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #555555;
+  color: #e0e0e0;
+}
+
+.form-input:-webkit-autofill {
+  -webkit-text-fill-color: #e0e0e0;
+  -webkit-box-shadow: 0 0 0px 40rem #555555 inset;
+}
+
+.form-button {
+  background-color: #00509e;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-button:hover {
+  background-color: #003366;
+}
+
+.form-link-text {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.form-link {
+  color: #6e9fd1;
+  text-decoration: none;
+}
+
+.form-link:hover {
+  text-decoration: underline;
+}

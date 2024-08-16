@@ -1,19 +1,39 @@
-<form action="/auth/<%= action %>" method="POST">
+<link rel="stylesheet" href="/css/form.css" />
+
+<form action="/auth/<%= action %>" method="POST" class="auth-form">
   <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
   <div class="form-group">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required />
+    <label for="username" class="form-label">Username:</label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      class="form-input"
+      required
+    />
   </div>
   <div class="form-group">
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required />
+    <label for="password" class="form-label">Password:</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      class="form-input"
+      required
+    />
   </div>
-  <button type="submit">
+  <button type="submit" class="form-button">
     <%= action === 'login' ? 'Login' : 'Register' %>
   </button>
 </form>
 <% if (action === 'register') { %>
-<p>Already have an account? <a href="/login">Login here</a></p>
+<p class="form-link-text">
+  Already have an account?
+  <a href="/auth/login" class="form-link">Login here</a>
+</p>
 <% } else { %>
-<p>Don't have an account? <a href="/register">Register here</a></p>
+<p class="form-link-text">
+  Don't have an account?
+  <a href="/auth/register" class="form-link">Register here</a>
+</p>
 <% } %>

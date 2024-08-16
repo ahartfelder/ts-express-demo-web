@@ -16,6 +16,7 @@ const port = config.PORT;
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'ejs');
 app.set('layout', 'layouts/main');
+app.set('layout extractStyles', true);
 
 app.use(expressLayouts);
 app.use(express.json());

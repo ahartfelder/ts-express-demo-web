@@ -71,6 +71,10 @@ export const registerForm = (
   next: NextFunction
 ): void => {
   try {
+    if (req.session?.username) {
+      res.redirect('/');
+      return;
+    }
     const locals = {
       title: 'Register',
       action: 'register',
@@ -88,6 +92,10 @@ export const loginForm = (
   next: NextFunction
 ): void => {
   try {
+    if (req.session?.username) {
+      res.redirect('/');
+      return;
+    }
     const locals = {
       title: 'Login',
       action: 'login',

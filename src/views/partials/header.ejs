@@ -1,13 +1,14 @@
-<header>
-  <nav>
-    Demo Web
-    <a href="/">Home</a>
-    <% if (isLoggedIn) { %>
-    <a href="/users">Users</a>
-    <a href="/auth/logout">Logout</a>
-    <% } else { %>
-    <a href="/auth/register">Register</a>
-    <a href="/auth/login">Login</a>
-    <% } %>
+<header class="header">
+  <nav class="nav">
+    <a href="/" class="logo"><strong>Demo Web</strong></a>
+    <div class="nav-links">
+      <% if (isLoggedIn) { %>
+      <a href="/users" class="nav-link">Users</a>
+      <a href="/auth/logout" class="nav-link">Logout</a>
+      <% } else { %>
+      <a href="/auth/register" class="nav-link">Register</a>
+      <a href="/auth/login" class="nav-link">Login</a>
+      <% } %>
+    </div>
   </nav>
 </header>
