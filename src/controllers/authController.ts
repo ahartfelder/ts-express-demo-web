@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import { createUser, getUserByUsername } from '../db/queries/userQueries';
 import { comparePassword, encryptPassword } from '../utils/bcrypt';
+import { config } from '../config';
 
 export const register = async (
   req: Request,
@@ -54,7 +55,7 @@ export const logout = (
       if (err) {
         throw new Error('Could not log out.');
       } else {
-        res.clearCookie('connect.sid');
+        res.clearCookie(config.SESSION_NAME);
         res.redirect('/');
       }
     });

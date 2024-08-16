@@ -11,13 +11,15 @@ export const errorHandler = (
   next: NextFunction
 ): void => {
   const statusCode = err.statusCode ?? 500;
+  let errorMessage = err.message ?? 'Internal Server Error';
 
   console.error(`\x1b[31m[ERROR] ${err.stack}\x1b[0m`);
 
-  if (err.message === 'Invalid UUID format') err.message = 'Invalid user';
+  if (errorMessage === 'Invalid UUID format') errorMessage = 'Invalid user';
 
-  res.status(statusCode).json({
-    status: statusCode,
-    message: err.message || 'Internal Server Error',
-  });
+  const locals = {
+    title: errorMessage,
+  };
+
+  res.render(statusCode.toString(), locals);
 };

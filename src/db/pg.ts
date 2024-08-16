@@ -1,13 +1,11 @@
-import dotenvFlow from 'dotenv-flow';
 import { Pool, QueryResult, QueryResultRow } from 'pg';
-
-dotenvFlow.config();
+import { config } from '../config';
 
 const pool = new Pool({
-  host: process.env.POSTGRES_HOST,
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DB,
+  host: config.POSTGRES_HOST,
+  user: config.POSTGRES_USER,
+  password: config.POSTGRES_PASSWORD,
+  database: config.POSTGRES_DB,
 });
 
 pool
@@ -19,9 +17,6 @@ pool
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 )`
   )
-  .then((info) => {
-    console.log('TABLE ALREADY EXISTS OR HAS BEEN CREATED SUCCESSFULLY');
-  })
   .catch((err) => console.log('TABLE CREATION ERROR', err));
 
 export const query = async <T extends QueryResultRow>(

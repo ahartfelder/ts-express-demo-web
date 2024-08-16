@@ -1,17 +1,15 @@
 import path from 'path';
 import express from 'express';
-import dotenvFlow from 'dotenv-flow';
 import expressLayouts from 'express-ejs-layouts';
 
 import routes from './routes';
 import { logger } from './middlewares/logger';
 import { errorHandler } from './middlewares/errorHandler';
 import { cookieSession } from './utils/cookieSession';
-
-dotenvFlow.config();
+import { config } from './config/index';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = config.PORT;
 
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'ejs');
