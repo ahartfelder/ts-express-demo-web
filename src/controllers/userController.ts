@@ -67,15 +67,7 @@ export const updateUser = (
   next: NextFunction
 ): void => {
   try {
-    const { id } = req.params;
-    const { username, password } = req.body;
-    const userIndex = users.findIndex((u) => u.id === parseInt(id));
-    if (userIndex !== -1) {
-      users[userIndex] = { id: parseInt(id), username, password };
-      res.json(users[userIndex]);
-    } else {
-      res.status(404).json({ message: 'User not found' });
-    }
+    res.json('update user');
   } catch (error) {
     next(error);
   }
@@ -87,14 +79,7 @@ export const deleteUser = (
   next: NextFunction
 ): void => {
   try {
-    const { id } = req.params;
-    const userIndex = users.findIndex((u) => u.id === parseInt(id));
-    if (userIndex !== -1) {
-      const deletedUser = users.splice(userIndex, 1);
-      res.json(deletedUser);
-    } else {
-      res.status(404).json({ message: 'User not found' });
-    }
+    res.json('delete user');
   } catch (error) {
     next(error);
   }

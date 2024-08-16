@@ -74,6 +74,7 @@ export const registerForm = (
     const locals = {
       title: 'Register',
       action: 'register',
+      csrfToken: req.csrfToken(),
     };
     res.render('register', locals);
   } catch (error) {
@@ -90,6 +91,7 @@ export const loginForm = (
     const locals = {
       title: 'Login',
       action: 'login',
+      csrfToken: req.csrfToken(),
     };
     res.render('login', locals);
   } catch (error) {
